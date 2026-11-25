@@ -151,20 +151,26 @@
 
   <script>
    const input = document.getElementById("user-input");
-const sendButton = document.querySelector("button");
+const input = document.getElementById("user-input");
 const chatBox = document.getElementById("chat-box");
-    async function sendMessage() {
+
+// Send button खोजें
+const sendButton = document.getElementById("sendBtn");
+
+async function sendMessage() {
   const message = input.value.trim();
+
   if (!message) return;
 
-  const userMsg = document.createElement("p");
-  userMsg.textContent = "You: " + message;
-  chatBox.appendChild(userMsg);
+  const userMessage = document.createElement("p");
+  userMessage.textContent = "You: " + message;
+  chatBox.appendChild(userMessage);
+
   input.value = "";
 
-  const botMsg = document.createElement("p");
-  botMsg.textContent = "UJWAL ROBO is thinking...";
-  chatBox.appendChild(botMsg);
+  const botMessage = document.createElement("p");
+  botMessage.textContent = "UJWAL ROBO is thinking...";
+  chatBox.appendChild(botMessage);
 
   sendButton.disabled = true;
 
@@ -173,16 +179,26 @@ const chatBox = document.getElementById("chat-box");
       "https://ujwalrobo.ujwalsaini0101.workers.dev",
       {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message })
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: message
+        })
       }
     );
 
     const data = await response.json();
-    botMsg.textContent = "UJWAL ROBO: " +
-      (data.reply || data.error || "No reply received.");
+
+    if (!response.ok) {
+      throw new Error(data.error || "AI request failed");
+    }
+
+    botMessage.textContent = "UJWAL ROBO: " + data.reply;
+
   } catch (error) {
-    botMsg.textContent = "Connection error. Please try again.";
+    botMessage.textContent =
+      "UJWAL ROBO: Sorry, connection problem. Please try again.";
   }
 
   sendButton.disabled = false;
@@ -194,44 +210,6 @@ input.addEventListener("keydown", function(event) {
   if (event.key === "Enter") {
     sendMessage();
   }
-});
-
-async function sendMessage() {
-  const message = input.value.trim();
-  if (!message) return;
-
-  chatBox.innerHTML += `<p><b>You:</b> ${message}</p>`;
-  input.value = "";
-  sendButton.disabled = true;
-
-  const loading = document.createElement("p");
-  loading.textContent = "UJWAL ROBO is thinking...";
-  chatBox.appendChild(loading);
-
-  try {
-    const response = await fetch(
-      "https://ujwalrobo.ujwalsaini0101.workers.dev",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
-      }
-    );
-
-    const data = await response.json();
-    loading.textContent = data.reply || data.error || "No reply received.";
-  } catch (error) {
-    loading.textContent = "Connection error. Please try again.";
-  } finally {
-    sendButton.disabled = false;
-    input.focus();
-  }
-}
-
-sendButton.addEventListener("click", sendMessage);
-
-input.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") sendMessage();
 });
   </script>
 
