@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UJWAL ROBO - AI Assistant</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0b1020;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 25px;
+      background: #111a30;
+      border-bottom: 1px solid #263653;
+    }
+
+    header h1 {
+      color: #55baff;
+      margin: 0;
+      font-size: 32px;
+    }
+
+    header p {
+      color: #aabbd4;
+    }
+
+    main {
+      max-width: 750px;
+      margin: 35px auto;
+      padding: 20px;
+    }
+
+    .chat-box {
+      background: #141e33;
+      border: 1px solid #2c4263;
+      border-radius: 16px;
+      padding: 20px;
+      min-height: 300px;
+    }
+
+    #messages {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      padding: 12px 15px;
+      border-radius: 12px;
+      max-width: 90%;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .user {
+      background: #1769aa;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #263653;
+      align-self: flex-start;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    input {
+      flex: 1;
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid #405574;
+      border-radius: 10px;
+      background: #0b1020;
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px 20px;
+      background: #1689e8;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #086fc4;
+    }
+
+    footer {
+      text-align: center;
+      color: #899bb5;
+      padding: 25px;
+    }
+
+    @media(max-width: 500px) {
+      .input-area {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>UJWAL ROBO 🤖</h1>
+    <p>Your Personal AI Assistant</p>
+  </header>
+
+  <main>
+    <div class="chat-box">
+      <div id="messages">
+        <div class="message bot">
+          Hello! I am UJWAL ROBO.
+          Ask me anything!
+        </div>
+      </div>
+
+      <div class="input-area">
+        <input
+          type="text"
+          id="userInput"
+          placeholder="Ask me anything..."
+        >
+        <button id="sendBtn">Send ➤</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    Created by Ujwal | UJWAL ROBO
+  </footer>
+
+  <script>
+    const input = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const messages = document.getElementById("messages");
+
+    function sendMessage() {
+      const question = input.value.trim();
+
+      if (!question) return;
+
+      const userMessage = document.createElement("div");
+      userMessage.className = "message user";
+      userMessage.textContent = question;
+      messages.appendChild(userMessage);
+
+      const botMessage = document.createElement("div");
+      botMessage.className = "message bot";
+      botMessage.textContent =
+        "Thanks for your question! My AI brain is coming soon. Stay tuned!";
+      messages.appendChild(botMessage);
+
+      input.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    sendBtn.addEventListener("click", sendMessage);
+
+    input.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
+  </script>
+
+</body>
+</html>
